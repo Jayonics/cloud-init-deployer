@@ -1,17 +1,54 @@
 version: "3.8"
 services:
-    apache:
-        image: httpd:${APACHE_VERSION:-bullseye}
-        build:
-            context: './apache/'
-            args:
-                PROJECT_ROOT: ${PROJECT_ROOT:-/var/www/html}
-        env_file:
-            - ./apache/.env
-        environment:
-            - APACHE_CONF_DIR=${APACHE_CONF_DIR:-/etc/httpd/conf.d}
-        # Make the container privileged
-        privileged: true
-        # Use host networking
-        networks:
-            - host
+  apache:
+    image: httpd:${APACHE_VERSION:-bullseye}
+    build:
+      context: './apache/'
+      args:
+        PROJECT_ROOT: ${PROJECT_ROOT:-/var/www/html}
+    env_file:
+      - ./apache/.env
+    environment:
+      - APACHE_CONF_DIR=${APACHE_CONF_DIR:-/usr/local/apache2}
+    stdin_open: true
+    tty: true
+    # Make the container privileged
+    privileged: true
+    # Use host networking
+    networks:
+      web: {}
+    ports:
+      - target: 80
+        host_ip: 0.0.0.0
+        published: 80
+        mode: host
+    volumes:
+      - type: bind
+        source: www
+        target: ${WEB_ROOT_CONTAINER:-/var/www/html}
+        read_only: false
+      - type: bind
+        source: ./apache/conf
+        target: ${APACHE_CONF_DIR}/conf-enabled
+      - type: bind
+        source: ./apache/sites
+        target: ${APACHE_CONF_DIR}/sites-enabled
+# Volumes
+volumes:
+  # The volume for the web root.
+  www:
+    driver: local
+    driver_opts:
+      type: none
+      device: ./www/
+      o: bind
+# Networks
+networks:
+  # The network for the web server (Apache)
+  web:
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.64.0.0/12
+          ip_range: 10.68.0.0/24
+          gateway: 10.64.0.1
