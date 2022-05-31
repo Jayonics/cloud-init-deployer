@@ -10,17 +10,19 @@ services:
       - ./apache/.env
     environment:
       - APACHE_CONF_DIR=${APACHE_CONF_DIR:-/usr/local/apache2}
-    stdin_open: true
-    tty: true
+#    stdin_open: true
+#    tty: true
     # Make the container privileged
-    privileged: true
+    #privileged: true
     # Use host networking
     networks:
       web: {}
+    container_name: apache
+
     ports:
       - target: 80
         host_ip: 0.0.0.0
-        published: 80
+        published: 8080
         mode: host
     volumes:
       - type: bind
@@ -33,6 +35,19 @@ services:
       - type: bind
         source: ./apache/sites
         target: ${APACHE_CONF_DIR}/sites-enabled
+  imger:
+    image: ubuntu:22.04
+    container_name: imger
+    build:
+      context: './img/'
+    networks:
+      web: {}
+    volumes:
+      - type: bind
+        source: workspace
+        target: /workspace
+    stdin_open: true
+    tty: true
 # Volumes
 volumes:
   # The volume for the web root.
@@ -41,6 +56,12 @@ volumes:
     driver_opts:
       type: none
       device: ./www/
+      o: bind
+  workspace:
+    driver: local
+    driver_opts:
+      type: none
+      device: ./workspace/
       o: bind
 # Networks
 networks:
@@ -52,3 +73,11 @@ networks:
         - subnet: 10.64.0.0/12
           ip_range: 10.68.0.0/24
           gateway: 10.64.0.1
+
+  internet-access:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.64.0/24
+          ip_range: 192.168.64.0/24
+          gateway: 192.168.64.1

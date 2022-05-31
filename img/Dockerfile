@@ -1,0 +1,23 @@
+FROM ubuntu:22.04 AS base
+
+RUN mkdir -vp /workspace
+RUN mkdir -vp /download
+VOLUME ["/workspace"]
+
+FROM base as setup
+# Install dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+	ca-certificates \
+	curl \
+	wget \
+	gnupg \
+	lsb-release \
+	xz-utils
+
+FROM setup as downloadExtract
+# Download the latest ubuntu rpi img
+RUN wget -q -O- 'https://cdimage.ubuntu.com/releases/22.04/release/ubuntu-22.04-preinstalled-server-arm64+raspi.img.xz' \
+| unxz -v -T 0 > '/download/ubuntu-22.04-preinstalled-server-arm64+raspi.img'
+
+# Move the image to the workspace
+CMD [ "/bin/bash", "-c", "mv -vf /download/ubuntu-22.04-preinstalled-server-arm64+raspi.img /workspace", ";", "sleep 120s" ]
