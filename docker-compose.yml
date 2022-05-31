@@ -1,0 +1,17 @@
+version: "3.8"
+services:
+    apache:
+        image: httpd:${APACHE_VERSION:-bullseye}
+        build:
+            context: './apache/'
+            args:
+                PROJECT_ROOT: ${PROJECT_ROOT:-/var/www/html}
+        env_file:
+            - ./apache/.env
+        environment:
+            - APACHE_CONF_DIR=${APACHE_CONF_DIR:-/etc/httpd/conf.d}
+        # Make the container privileged
+        privileged: true
+        # Use host networking
+        networks:
+            - host
