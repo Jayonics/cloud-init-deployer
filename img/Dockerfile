@@ -20,4 +20,4 @@ RUN wget -q -O- 'https://cdimage.ubuntu.com/releases/22.04/release/ubuntu-22.04-
 | unxz -v -T 0 > '/download/ubuntu-22.04-preinstalled-server-arm64+raspi.img'
 
 # Move the image to the workspace
-CMD [ "/bin/bash", "-c", "mv -vf /download/ubuntu-22.04-preinstalled-server-arm64+raspi.img /workspace", ";", "sleep 120s" ]
+CMD [ "/bin/bash", "-c", "mv -vf /download/ubuntu-22.04-preinstalled-server-arm64+raspi.img /workspace", "&&", "echo 'done'" ]
