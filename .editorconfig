@@ -3,7 +3,7 @@ root = true
 [*]
 charset = utf-8
 end_of_line = lf
-indent_size = 4
+indent_size = unset
 indent_style = tab
 insert_final_newline = false
 max_line_length = 125
