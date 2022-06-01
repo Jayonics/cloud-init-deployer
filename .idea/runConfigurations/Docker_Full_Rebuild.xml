@@ -1,0 +1,20 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Docker Full Rebuild" type="docker-deploy" factoryName="docker-compose.yml" server-name="Docker">
+    <deployment type="docker-compose.yml">
+      <settings>
+        <option name="buildKitEnabledForCompose" value="true" />
+        <option name="envFilePath" value="A:\Docker\cloud-init-deployer\.env" />
+        <option name="removeImagesOnComposeDown" value="ALL" />
+        <option name="removeVolumesOnComposeDown" value="true" />
+        <option name="commandLineOptions" value="--build" />
+        <option name="sourceFilePath" value="docker-compose.yml" />
+        <option name="upAlwaysRecreate" value="true" />
+        <option name="upAttachDependencies" value="true" />
+        <option name="upDetach" value="false" />
+        <option name="upForceRecreate" value="true" />
+        <option name="upRenewAnonVolumes" value="true" />
+      </settings>
+    </deployment>
+    <method v="2" />
+  </configuration>
+</component>

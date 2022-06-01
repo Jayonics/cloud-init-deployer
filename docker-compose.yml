@@ -10,15 +10,10 @@ services:
       - ./apache/.env
     environment:
       - APACHE_CONF_DIR=${APACHE_CONF_DIR:-/usr/local/apache2}
-#    stdin_open: true
-#    tty: true
-    # Make the container privileged
-    #privileged: true
     # Use host networking
     networks:
       web: {}
     container_name: apache
-
     ports:
       - target: 80
         host_ip: 0.0.0.0
@@ -35,19 +30,38 @@ services:
       - type: bind
         source: ./apache/sites
         target: ${APACHE_CONF_DIR}/sites-enabled
-  imger:
+  base-img:
     image: ubuntu:22.04
-    container_name: imger
+    container_name: base-img
     build:
-      context: './img/'
+      context: './base-img/'
     networks:
       web: {}
     volumes:
       - type: bind
         source: workspace
         target: /workspace
-    stdin_open: true
-    tty: true
+    privileged: true
+    user: root
+    working_dir: /workspace
+    restart: "no"
+#  ext-img:
+#    image: ubuntu:22.04
+#    container_name: ext-img
+#    build:
+#      context: './ext-img/'
+#    networks:
+#      web: {}
+#    volumes:
+#        - type: bind
+#          source: workspace
+#          target: /workspace
+#    depends_on:
+#      base-img:
+#        condition: service_started
+#    privileged: true
+#    user: root
+#    working_dir: /workspace
 # Volumes
 volumes:
   # The volume for the web root.
