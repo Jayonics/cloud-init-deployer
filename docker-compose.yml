@@ -30,53 +30,56 @@ services:
       - type: bind
         source: ./apache/sites
         target: ${APACHE_CONF_DIR}/sites-enabled
-  base-img:
+  base_img:
     image: ubuntu:22.04
-    container_name: base-img
+    container_name: base_img
     build:
       context: './base-img/'
     networks:
       web: {}
     volumes:
-      - type: bind
-        source: workspace
+      - type: volume
+        source: img_workspace
         target: /workspace
+        volume:
+          nocopy: false
     privileged: true
     user: root
     working_dir: /workspace
     restart: "no"
-#  ext-img:
-#    image: ubuntu:22.04
-#    container_name: ext-img
-#    build:
-#      context: './ext-img/'
-#    networks:
-#      web: {}
-#    volumes:
-#        - type: bind
-#          source: workspace
-#          target: /workspace
-#    depends_on:
-#      base-img:
-#        condition: service_started
-#    privileged: true
-#    user: root
-#    working_dir: /workspace
+  ext_img:
+    image: ubuntu:22.04
+    container_name: ext_img
+    build:
+      context: './ext-img/'
+    networks:
+      web: {}
+    volumes:
+        - type: volume
+          source: img_workspace
+          target: /workspace
+    depends_on:
+      base_img:
+        condition: service_started
+    privileged: true
+    user: root
+    working_dir: /workspace
+    tty: true
+    stdin_open: true
+    restart: "no"
 # Volumes
 volumes:
   # The volume for the web root.
   www:
     driver: local
     driver_opts:
-      type: none
+      type: bind
       device: ./www/
-      o: bind
-  workspace:
+  img_workspace:
+    name: img_workspace
+    labels:
+      img_workspace: img_workspace
     driver: local
-    driver_opts:
-      type: none
-      device: ./workspace/
-      o: bind
 # Networks
 networks:
   # The network for the web server (Apache)

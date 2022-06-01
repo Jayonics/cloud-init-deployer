@@ -1,9 +1,21 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Docker Full Rebuild" type="docker-deploy" factoryName="docker-compose.yml" server-name="Docker">
+  <configuration default="false" name="Docker Full Rebuild" type="docker-deploy" factoryName="docker-compose.yml" folderName="WO Buildkit" server-name="Docker">
     <deployment type="docker-compose.yml">
       <settings>
         <option name="buildKitEnabledForCompose" value="true" />
         <option name="envFilePath" value="A:\Docker\cloud-init-deployer\.env" />
+        <option name="envVars">
+          <list>
+            <DockerEnvVarImpl>
+              <option name="name" value="DOCKER_BUILDKIT" />
+              <option name="value" value="1" />
+            </DockerEnvVarImpl>
+            <DockerEnvVarImpl>
+              <option name="name" value="COMPOSE_DOCKER_CLI_BUILD" />
+              <option name="value" value="1" />
+            </DockerEnvVarImpl>
+          </list>
+        </option>
         <option name="removeImagesOnComposeDown" value="ALL" />
         <option name="removeVolumesOnComposeDown" value="true" />
         <option name="commandLineOptions" value="--build" />
