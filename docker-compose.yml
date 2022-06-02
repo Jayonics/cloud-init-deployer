@@ -9,10 +9,11 @@ services:
     env_file:
       - ./apache/.env
     environment:
-      - APACHE_CONF_DIR=${APACHE_CONF_DIR:-/usr/local/apache2}
+      APACHE_CONF_DIR: ${APACHE_CONF_DIR:-/usr/local/apache2}
     # Use host networking
     networks:
       web: {}
+    hostname: cloudinit.radux.uk
     container_name: apache
     ports:
       - target: 80
