@@ -8,18 +8,13 @@ VOLUME ["/workspace"]
 
 # Install dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
-ca-certificates \
-curl \
 wget \
-gnupg \
-lsb-release \
-xz-utils \
 kpartx
 
 FROM base AS devloop
 SHELL ["/bin/bash", "-c"]
 WORKDIR /workspace
-RUN export LOOPDEVICES = $(kpartx -al $DOWNLOAD_TARGET | awk '{print $4}')
+#RUN LOOPDEVICES = $(kpartx -al $DOWNLOAD_TARGET | awk '{print $4}') && export $LOOPDEVICES
 
 RUN echo "Loop devices: ${LOOPDEVICES[@]}" \
 && kpartx -a $DOWNLOAD_TARGET \
