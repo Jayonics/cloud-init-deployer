@@ -3,7 +3,6 @@
     <deployment type="docker-compose.yml">
       <settings>
         <option name="buildKitEnabledForCompose" value="true" />
-        <option name="envFilePath" value="A:\Docker\cloud-init-deployer\.env" />
         <option name="envVars">
           <list>
             <DockerEnvVarImpl>
