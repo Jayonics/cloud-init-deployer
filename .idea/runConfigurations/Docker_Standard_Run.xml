@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Docker Standard Build" type="docker-deploy" factoryName="docker-compose.yml" folderName="WO Buildkit" server-name="Docker">
+  <configuration default="false" name="Docker Standard Run" type="docker-deploy" factoryName="docker-compose.yml" folderName="WO Buildkit" server-name="Docker">
     <deployment type="docker-compose.yml">
       <settings>
         <option name="buildKitEnabledForCompose" value="true" />
@@ -16,7 +16,6 @@
             </DockerEnvVarImpl>
           </list>
         </option>
-        <option name="commandLineOptions" value="--build" />
         <option name="sourceFilePath" value="docker-compose.yml" />
         <option name="upDetach" value="false" />
       </settings>
