@@ -9,7 +9,8 @@ VOLUME ["/workspace"]
 # Install dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
 wget \
-kpartx
+kpartx \
+parted
 
 FROM base AS devloop
 SHELL ["/bin/bash", "-c"]
