@@ -49,6 +49,7 @@ services:
     working_dir: /workspace
     restart: "no"
   ext_img:
+    platform: linux
     image: ubuntu:22.04
     container_name: ext_img
     build:
@@ -67,6 +68,7 @@ services:
     working_dir: /workspace
     tty: true
     stdin_open: true
+    ipc: host
     restart: "no"
 # Volumes
 volumes:
